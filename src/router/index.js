@@ -8,6 +8,11 @@ const routes = [
     path: '/',
     name: 'open',
     component: () => import('../views/OpenView.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue')
   }
 ]
 
