@@ -8,13 +8,10 @@
             <v-card elevation="0" style="width: 60%;">
                 <v-card-text style="padding-bottom: 0px;">
                     <v-text-field color="#00ADB5" label="Correo" outlined></v-text-field>
-                    <v-text-field color="#00ADB5" label="Contraseña" outlined></v-text-field>
                 </v-card-text>
                 <v-card-actions class="d-flex flex-column my-auto justify-space-between" style="height: 130px; margin-top: 0px;">
-                    <a href="/recover" style="color: #393E46">¿Olvidaste tu contraseña? Recuperar contraseña</a>
                     <v-btn depressed color=#393E46
-                        style="color: #00ADB5; width: 260px; height: 65px; border-radius: 0.7rem; font-size: 17px;">Iniciar
-                        Sesión</v-btn>
+                        style="color: #00ADB5; width: 260px; height: 65px; border-radius: 0.7rem; font-size: 17px;">Recuperar</v-btn>
                 </v-card-actions>
             </v-card>
         </div>

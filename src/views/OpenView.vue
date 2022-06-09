@@ -6,8 +6,8 @@
         </div>
         <div class="openview-midcontainer-right">
             <v-btn depressed color=#393E46 to="/login" style="color: #00ADB5; width: 330px; height: 80px; border-radius: 0.7rem; font-size: 17px;">Iniciar Sesión</v-btn>
-            <v-btn depressed color=#393E46 style="color: #00ADB5; width: 330px; height: 80px; border-radius: 0.7rem; font-size: 17px;">Regístrate</v-btn>
-            <a href="#" style="color: #393E46">Recuperar contraseña</a>
+            <v-btn depressed color=#393E46 to="/register" style="color: #00ADB5; width: 330px; height: 80px; border-radius: 0.7rem; font-size: 17px;">Regístrate</v-btn>
+            <a href="/recover" style="color: #393E46">Recuperar contraseña</a>
         </div>
     </div>
 </template>
