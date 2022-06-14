@@ -1,9 +1,7 @@
 <template>
     <div id="op-ctn" class="openview-container">
         <div class="openview-midcontainer">
-            <router-link id="back_btn" to="" @click.native="goBackRoute()" class="d-none d-md-flex">
-                <v-icon large style="margin-top: -2px;">mdi-chevron-left</v-icon>Volver
-            </router-link>
+            <BackRouteBtn inivisibleRouteName="startOpts"></BackRouteBtn>
             <h1>e-Bonos</h1>
             <h2>Calcula tus bonos fácil</h2>
         </div>
@@ -12,42 +10,13 @@
 </template>
 
 <script>
+import BackRouteBtn from '../components/back-route-btn.vue';
+
 export default {
     name: 'StartView',
-    data() {
-        return {
-            backBtn: null,
-        }
+    components: {
+        BackRouteBtn,
     },
-    methods: {
-        goBackRoute() {
-            if (this.$router.currentRoute.name != 'startOpts')
-                this.$router.back();
-        },
-        setBackBtnVisibility() {
-            if (this.$router.currentRoute.name == 'startOpts') {
-                this.backBtn.style.opacity = "0";
-                setTimeout(() => {
-                    this.backBtn.style.display = "none";
-                }, 500);
-            }
-            else {
-                this.backBtn.style.display = "block";
-                setTimeout(() => {
-                    this.backBtn.style.opacity = "1";
-                }, 1);
-            }
-        },
-    },
-    watch: {
-        '$route'() {
-            this.setBackBtnVisibility();
-        }
-    },
-    mounted() {
-        this.backBtn = document.getElementById("back_btn");
-        this.setBackBtnVisibility();
-    }
 }
 </script>
 
@@ -87,21 +56,6 @@ h2 {
     font-weight: 600;
     font-size: 23px;
     color: #393E46;
-}
-
-/* Back Button */
-#back_btn {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    font-size: 20px;
-    letter-spacing: 0.01ch;
-    text-decoration: none;
-    color: #393E46;
-    transition: all 0.2s ease;
-    text-transform: unset !important;
 }
 
 @media (max-width: 960px) {

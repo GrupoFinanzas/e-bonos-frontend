@@ -1,3 +1,3 @@
 <template>
-    <h1>Nada cholo</h1>
+    <h1>Página no encontrada :(</h1>
 </template>

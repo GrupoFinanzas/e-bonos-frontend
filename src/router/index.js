@@ -36,14 +36,31 @@ const routes = [
     ]
   },
   {
+    path: '/mybonds',
+    name: 'myBonds',
+    component: () => import('../views/MyBondsView.vue'),
+    children: [
+      {
+        path: '/mybonds/',
+        name: 'myBondsOpts',
+        component: () => import('../components/list-bonds-options.vue')
+      },
+      {
+        path: '/mybonds/add',
+        name: 'addBond',
+        component: () => import('../components/new-bond-options.vue')
+      },
+      {
+        path: '/mybonds/edit',
+        name: 'editBond',
+        component: () => import('../components/edit-bond-options.vue')
+      },
+    ]
+  },
+  {
     path: '*',
     name: 'notFound',
     component: () => import('../views/PageNotFoundView.vue'),
-  },
-  {
-    path: '/mybonds',
-    name: 'myBonds',
-    component: () => import('../views/MyBondsView.vue')
   },
 ]
 
