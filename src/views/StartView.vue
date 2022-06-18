@@ -1,11 +1,11 @@
 <template>
     <div id="op-ctn" class="openview-container">
-        <div class="openview-midcontainer">
+        <div class="openview-midcontainer openview-midcontainer-left">
             <BackRouteBtn inivisibleRouteName="startOpts"></BackRouteBtn>
             <h1>e-Bonos</h1>
             <h2>Calcula tus bonos fácil</h2>
         </div>
-        <router-view class="openview-midcontainer"></router-view>
+        <router-view class="openview-midcontainer openview-midcontainer-right"></router-view>
     </div>
 </template>
 
@@ -39,7 +39,6 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.4s ease;
 }
 
 /* Main title */
@@ -59,8 +58,24 @@ h2 {
 }
 
 @media (max-width: 960px) {
-    #op-ctn .openview-midcontainer {
+    #op-ctn .openview-midcontainer-left {
         width: 100%;
+        height: 30%;
+    }
+
+    #op-ctn .openview-midcontainer-right {
+        width: 100%;
+        height: 70%;
+        padding-bottom: 20%;
+        justify-content: flex-start;
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+    h2 {
+        font-size: 20px;
     }
 }
 </style>

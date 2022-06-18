@@ -41,9 +41,12 @@ const routes = [
     component: () => import('../views/MyBondsView.vue'),
     children: [
       {
-        path: '/mybonds/',
+        path: '/mybonds/', redirect: '/mybonds/ '
+      },
+      {
+        path: '/mybonds/ ',
         name: 'myBondsOpts',
-        component: () => import('../components/list-bonds-options.vue')
+        component: () => import('../components/mybonds-options.vue')
       },
       {
         path: '/mybonds/add',

@@ -52,7 +52,7 @@ export default {
 /* Back Button */
 #back_btn {
     position: absolute;
-    top: 30px;
+    top: 28px;
     left: 30px;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;

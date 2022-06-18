@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form style="width: 400px;">
+        <v-form id="recoveropts-form-container">
             <div>
                 <v-text-field color="#00ADB5" label="Correo" outlined></v-text-field>
             </div>
@@ -12,6 +12,10 @@
 </template>
 
 <style scoped>
+
+#recoveropts-form-container {
+    width: 400px;
+}
 
 #recoveropts-acts {
     height: 130px;
@@ -27,6 +31,12 @@
     height: 65px;
     border-radius: 0.7rem;
     font-size: 17px;
+}
+
+@media (max-width: 600px) {
+    #recoveropts-form-container {
+        width: 100%;
+    }
 }
 
 </style>

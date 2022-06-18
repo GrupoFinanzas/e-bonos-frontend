@@ -44,8 +44,7 @@ export default {
     padding-left: 20px;
 }
 
-#bond-list-item-trash-icon {
-    border: 1px solid blue;
-
+.bond-list-item-text:hover + #bond-list-item-trash-icon {
+    background-color: #CFCFCF !important;
 }
 </style>

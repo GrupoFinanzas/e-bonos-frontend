@@ -21,24 +21,6 @@
     </div>
 </template>
 
-<style scoped>
-#loginopts-acts {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-#loginopts-acts .loginopts-loginbtn {
-    color: #00ADB5;
-    width: 260px;
-    height: 65px;
-    border-radius: 0.7rem;
-    font-size: 17px;
-}
-</style>
-
 <script>
 
 export default {
@@ -52,9 +34,6 @@ export default {
             password: ''
         },
         rules: {
-            name: [
-                val => !!val || 'El nombre es requerido',
-            ],
             email: [
                 val => !!val || 'El correo es requerido',
                 val => /.+@.+/.test(val) || 'El correo debe ser válido',
@@ -76,3 +55,21 @@ export default {
 }
 
 </script>
+
+<style scoped>
+#loginopts-acts {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+#loginopts-acts .loginopts-loginbtn {
+    color: #00ADB5;
+    width: 260px;
+    height: 65px;
+    border-radius: 0.7rem;
+    font-size: 17px;
+}
+</style>
