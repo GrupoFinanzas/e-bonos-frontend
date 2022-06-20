@@ -2,9 +2,10 @@
     <div class="bond-text-input-container">
         <div class="bond-text-input-text">{{ label }}</div>
         <div class="bond-text-input-container-text-input">
-            <v-text-field v-model="bondName" :placeholder="placeholder" dense outlined :readonly="readonly"
-                :hide-details="true"></v-text-field>
-            <v-select v-if="options" v-model="defaultOption" :items="options" dense outlined :hide-details="true"></v-select>
+            <v-text-field v-if="!notTextInput" v-model="inputText" :placeholder="placeholder" dense outlined :readonly="readonly"
+                :type="type != null ? type : 'text'" :hide-details="true" :rules="notRequired != null ? rules.nothing : rules.data" />
+            <v-select v-if="options" v-model="selectedOption" :items="options" dense outlined :hide-details="true">
+            </v-select>
         </div>
     </div>
 </template>
@@ -13,8 +14,16 @@
 
 export default {
     data: () => ({
-        bondName: null,
-        defaultOption: null,
+        inputText: null,
+        selectedOption: null,
+        rules: {
+            nothing: [
+                () => true,
+            ],
+            data: [
+                val => !!val || 'El dato es requerido',
+            ],
+        },
     }),
     props: [
         'label',
@@ -22,11 +31,14 @@ export default {
         'text',
         'readonly',
         'options',
+        'type',
+        'notTextInput',
+        'notRequired'
     ],
     mounted() {
-        this.bondName = this.text;
+        this.inputText = this.text;
         if (this.options)
-            this.defaultOption = this.options[0];
+            this.selectedOption = this.options[0];
     }
 }
 

@@ -1,6 +1,9 @@
 <template>
     <div id="bond-action-text-container">
-        <v-btn class="bond-action-text-btn" v-if="!responsive" :to="route" color="#00ADB5">{{ text }}</v-btn>
+        <v-btn class="bond-action-text-btn" v-if="!responsive" @click="onClick != null ? onClick() : null"
+            :to="route" color="#00ADB5" :disabled="disabled">{{ text }}</v-btn>
+        <!-- <v-btn class="bond-action-text-btn" v-if="!responsive" :v-on="v-on"
+            :to="route" color="#00ADB5" :disabled="disabled">{{ text }}</v-btn> -->
         <div v-else>
             <v-btn class="bond-action-text-btn" v-if="!mobile" :to="route" color="#00ADB5">{{ text }}</v-btn>
             <v-btn class="bond-action-icon-btn" v-else :to="route" color="#00ADB5" fab>
@@ -20,6 +23,9 @@ export default {
         'route',
         'responsive',
         'dense',
+        'onClick',
+        'disabled',
+        // 'onClickTwo'
     ],
     computed: {
         mobile() {

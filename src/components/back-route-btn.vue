@@ -17,8 +17,9 @@ export default {
     ],
     methods: {
         goBackRoute() {
-            if (this.$router.currentRoute.name != this.inivisibleRouteName)
-                this.$router.back();
+            // if (this.$router.currentRoute.name != this.inivisibleRouteName)
+            //     this.$router.back();
+            this.$router.push({ name: this.inivisibleRouteName });
         },
         setBackBtnVisibility() {
             if (this.$router.currentRoute.name == this.inivisibleRouteName) {
@@ -48,7 +49,6 @@ export default {
 </script>
 
 <style>
-
 /* Back Button */
 #back_btn {
     position: absolute;
@@ -63,5 +63,4 @@ export default {
     transition: all 0.2s ease;
     text-transform: unset !important;
 }
-
 </style>
