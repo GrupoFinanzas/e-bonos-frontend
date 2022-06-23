@@ -64,7 +64,7 @@ export default {
             let bondData = this.BondData(this.inputRefs);
             let result = calculateGermanMethod(bondData);
             for (let i = 0; i < this.outputRefs.length; i++) {
-                this.outputRefs[i].inputText = result[i];
+                this.outputRefs[i].inputText = result.values[i];
             }
         },
         onSave() {

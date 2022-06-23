@@ -33,7 +33,7 @@ function calculateGermanMethod(data) {
 // }
 
 function printFlows(investment, flows) {
-    let debugText = `Flujos:\n [${-investment}, `;
+    let debugText = `Flujos:\n [${investment}, `;
     for (let i = 0; i < flows.length; i++) {
         debugText += `${flows[i].toFixed(4)}` + (i == flows.length - 1 ? `` : `, `);
     }
@@ -63,7 +63,7 @@ function germanMethod(data) {
 
     for (let i in Units) {
         if (data.couponRateFrecuency === Units[i].frecuencyString) {
-            data.couponRate = 
+            data.couponRate =
                 Math.pow(1 + parseFloat(data.couponRate / 100), Units[i].forYears / Units[paymentPeriodFrecuency].forYears) - 1;
             break;
         }
@@ -71,15 +71,16 @@ function germanMethod(data) {
 
     // german method payment program
     let investment = data.nominalValue;
-    let amortization = investment / numberPeriods;
+    let amortization = -investment / numberPeriods;
     let futureFlows = [];
     let index = 0;
     let capital = investment;
+    let cok = 2.50;
 
     while (index < numberPeriods) {
-        let interest = capital * (data.couponRate); // falta que la tasa cupón sea relativa a la frecuencia de pago
+        let interest = -capital * (data.couponRate); // falta que la tasa cupón sea relativa a la frecuencia de pago
         futureFlows.push(interest + amortization);
-        capital -= amortization;
+        capital = capital - (-amortization);
         index++;
     }
 
@@ -94,67 +95,68 @@ function germanMethod(data) {
         let sum = 0
         for (let i = 0; i < numberPeriods; i++) {
             let denominator = Math.pow(1 + tir, i + 1);
-            sum += futureFlows[i] / denominator;
+            sum += -futureFlows[i] / denominator;
         }
         van = -investment + sum;
-        console.log('van: ' + van);
         tir += 0.000001;
     } while (van > 0);
 
     tir *= 100;
 
-    console.log('van1: ' + van);
-    // console.log('tir: ' + tir);
+    console.log('tir: ' + tir);
     let tirFrecuency = data.paymentPeriod;
 
     // console.log('va');
     // calculate the value of the current bond (VA)
     let va = 0;
     for (let i = 0; i < numberPeriods; i++) {
-        let denominator = Math.pow(1 + tir, i + 1);
-        va += futureFlows[i] / denominator;
+        let denominator = Math.pow(1 + (cok / 100), i + 1);
+        va += -futureFlows[i] / denominator;
     }
-
+    console.log('va: ' + va);
     // console.log('van');
     // calculate the net present value (VAN)
     van = va - investment;
+    console.log('van: ' + van);
 
-    // calculate the duration
+    // calculate the duration and convexity
     let sumVAbyTime = 0;
+    let sumConvexityByPeriod = 0;
     for (let i = 0; i < numberPeriods; i++) {
-        let VAbyPeriod = futureFlows[i] / Math.pow(1 + tir, i + 1);
+        let VAbyPeriod = -futureFlows[i] / Math.pow(1 + (cok / 100), i + 1)
         let VAbyPeriodxTime = VAbyPeriod * (i + 1);
         sumVAbyTime += VAbyPeriodxTime;
+
+        let convexityByPeriod = VAbyPeriodxTime * (Math.pow(i + 1, 2) + (i + 1));
+        sumConvexityByPeriod += convexityByPeriod;
     }
 
-    let duration = sumVAbyTime / investment;
+    let duration = sumVAbyTime / va;
     let durationFrecuency = data.paymentPeriod;
+    console.log('Duración: ' + duration);
 
     // calculate the modified duration
-    let modifiedDuration = duration / (1 + tir);
+    let modifiedDuration = duration / (1 + (cok / 100));
+    console.log('Duración Modificada: ' + modifiedDuration);
 
     // calculate the convexity
-    let sumConvexityByPeriod = 0;
-    let sumVAbyPeriod = 0;
-    for (let i = 0; i < numberPeriods; i++) {
-        let period = i + 1;
-        let VAbyPeriod = futureFlows[i] / Math.pow(1 + tir, period);
-        let convexityByPeriod = VAbyPeriod * ((Math.pow(period, 2) + period) / (Math.pow(1 + tir, period)));
-        sumConvexityByPeriod += convexityByPeriod;
-        sumVAbyPeriod += VAbyPeriod;
-    }
-    let convexity = (1 / (sumVAbyPeriod * Math.pow(1 + tir, 2))) * sumConvexityByPeriod;
+    let convexity = sumConvexityByPeriod / (va * Math.pow(1 + (cok / 100), 2));
+    console.log('Convexidad: ' + convexity);
 
-    return [
-        tir.toFixed(3),
-        tirFrecuency,
-        va.toFixed(3),
-        van.toFixed(3),
-        duration.toFixed(3),
-        durationFrecuency,
-        modifiedDuration.toFixed(3),
-        convexity.toFixed(3),
-    ];
+    return {
+        values: [
+            tir.toFixed(3),
+            va.toFixed(3),
+            van.toFixed(3),
+            duration.toFixed(3),
+            modifiedDuration.toFixed(3),
+            convexity.toFixed(3),
+        ],
+        frequencies: [
+            tirFrecuency,
+            durationFrecuency
+        ]
+    };
 }
 
 export { calculateGermanMethod, Units };
