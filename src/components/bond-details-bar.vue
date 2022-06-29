@@ -1,7 +1,7 @@
 <template>
     <div class="bond-details-bar-container">
         <div class="bond-details-bar-text">S/.</div>
-        <v-switch color="#D3FDFF" light inset style="width: 40px"></v-switch>
+        <v-switch v-model="isChecked" color="#D3FDFF" light inset style="width: 40px" @change="onChange"></v-switch>
         <div class="bond-details-bar-text">$</div>
     </div>
 </template>
@@ -11,7 +11,15 @@
 export default {
     name: 'BondDetailsBar',
     components: {
-    }
+    },
+    data: () => ({
+        isChecked: false,
+    }),
+    methods: {
+        onChange() {
+            this.$emit('moneyChange', this.isChecked);
+        },
+    },
 }
 
 </script>

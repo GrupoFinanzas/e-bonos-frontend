@@ -48,7 +48,6 @@ export default {
         group: null,
         showStartMenu: false,
         items: [
-            { title: 'Perfil', icon: 'mdi-account', to: '/profile' },
             { title: 'Mis bonos', icon: 'mdi-account', to: '/mybonds/ ' },
             { title: 'Agregar bono', icon: 'mdi-plus', to: '/mybonds/add' },
             { title: 'Cerrar Sesión', icon: 'mdi-logout', to: '/start' },

@@ -7,12 +7,12 @@
                 type="number" />
             <BondTextInput ref="bondCouponRate" label="Tasa cupónㅤㅤㅤㅤㅤㅤㅤ" placeholder="Ej: 2%" :readonly="false"
                 type="number" :options="frecuencyOptions" />
-            <BondTextInput ref="bondCouponRateFrecuency" label="Periodos de pagoㅤㅤㅤ" :notTextInput="true"
+            <BondTextInput ref="bondPaymentPeriod" label="Periodos de pagoㅤㅤㅤ" :notTextInput="true"
                 :options="frecuencyOptions" />
             <BondTextInput ref="bondExpiration" label="Vencimientoㅤㅤㅤㅤㅤㅤ" placeholder="Ej: 2" :readonly="false"
                 type="number" :options="durationOptions" />
-            <BondTextInput ref="bondMarketType" label="Tipo de mercadoㅤㅤㅤㅤ" :notTextInput="true"
-                :options="marketTypeOptions" />
+            <BondTextInput ref="bondCok" label="Tasa de interés del mercado" placeholder="Ej: 2%" :readonly="false"
+                type="number" :options="frecuencyOptions" />
             <BondTextInput label="Método financieroㅤㅤㅤ" text="Método alemán" :readonly="true" />
         </div>
         <div class="bond-details-view-midcontainer">
@@ -39,14 +39,29 @@ import { calculateGermanMethod } from '../bonds-formulas/calculate-german-method
 
 export default {
     data: () => ({
-        frecuencyOptions: ['Anual', 'Semestral', 'Cuatrimestral', 'Trimestral', 'Bimestral', 'Mensual', 'Quincenal', 'Senanal', 'Diario'],
-        durationOptions: ['Años', 'Semestres', 'Cuatrimestres', 'Trimestres', 'Bimestres', 'Meses', 'Quincenas', 'Semanas', 'Días'],
+        frecuencyOptions: ['Anual', 'Semestral', 'Cuatrimestral', 'Trimestral', 'Bimestral', 'Mensual', 'Quincenal', 'Diario'],
+        durationOptions: ['Años', 'Semestres', 'Cuatrimestres', 'Trimestres', 'Bimestres', 'Meses', 'Quincenas', 'Días'],
         marketTypeOptions: ['Mercado Primario', 'Mercado Secundario'],
         inputRefs: [],
         outputRefs: [],
         isLoading: false,
     }),
     components: { BondTextInput, BondActionBtn },
+    props: [
+        'isDolar',
+    ],
+    watch: {
+        isDolar: function(is_dolar) {
+            if (this.outputRefs[0].inputText === undefined) return;
+            const dollarConversion = 3.80;
+            for (let i = 1; i < 3; i++) {
+                let money = parseFloat(this.outputRefs[i].inputText);
+                money = is_dolar ? money / dollarConversion : money * dollarConversion;
+                money = money.toFixed(3);
+                this.outputRefs[i].inputText =  money;
+            }
+        },
+    },
     methods: {
         BondData(refs) {
             return {
@@ -55,9 +70,10 @@ export default {
                 couponRate: refs[2].inputText,
                 couponRateFrecuency: refs[2].selectedOption,
                 paymentPeriod: refs[3].selectedOption,
-                expiration: refs[4].inputText,
-                expirationUnit: refs[4].selectedOption,
-                marketType: refs[5].selectedOption,
+                cok: refs[4].inputText,
+                cokFrecuency: refs[4].selectedOption,
+                expiration: refs[5].inputText,
+                expirationUnit: refs[5].selectedOption,
             };
         },
         onCalculate() {
@@ -66,6 +82,10 @@ export default {
             for (let i = 0; i < this.outputRefs.length; i++) {
                 this.outputRefs[i].inputText = result.values[i];
             }
+            setTimeout(() => {
+                this.$refs.bondTir.updateSelectedOption(result.frequencies[0]);
+                this.$refs.bondDuration.updateSelectedOption(result.frequencies[1]);
+            }, 50);
         },
         onSave() {
             // TODO: Save bond
@@ -76,7 +96,7 @@ export default {
         bondDataFormCompleted() {
             for (let i = 0; i < this.inputRefs.length; i++) {
                 if ((this.inputRefs[i].inputText == null || this.inputRefs[i].inputText == '')
-                    && (i != 3 && i != 5)) {
+                    && (i != 3)) {
                     return false
                 }
             }
@@ -97,18 +117,22 @@ export default {
             this.$refs.bondName,                    // 0
             this.$refs.bondValue,                   // 1
             this.$refs.bondCouponRate,              // 2
-            this.$refs.bondCouponRateFrecuency,     // 3
-            this.$refs.bondExpiration,              // 4
-            this.$refs.bondMarketType               // 5
+            this.$refs.bondPaymentPeriod,           // 3
+            this.$refs.bondCok,                     // 4
+            this.$refs.bondExpiration,              // 5
         ];
         this.outputRefs = [
             this.$refs.bondTir,                     // 0
             this.$refs.bondVa,                      // 1
             this.$refs.bondVan,                     // 2
-            this.$refs.bondDuration,               // 3
-            this.$refs.bondModifiedDuration,       // 4
-            this.$refs.bondConvexity,              // 5
+            this.$refs.bondDuration,                // 3
+            this.$refs.bondModifiedDuration,        // 4
+            this.$refs.bondConvexity,               // 5
         ];
+
+        this.$on('moneyChange', function() {
+            console.log('money changed')
+        })
     }
 }
 
