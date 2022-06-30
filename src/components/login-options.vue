@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import UsersApiService from '@/services/users-api.service';
+
 
 export default {
     data: () => ({
@@ -30,7 +32,7 @@ export default {
         formValid: false,
         showPassword: false,
         user: {
-            username: '',
+            email: '',
             password: ''
         },
         rules: {
@@ -45,11 +47,34 @@ export default {
         }
     }),
     methods: {
-        handleLogin() {
-            this.user.username = this.email;
+        async handleLogin() {
+            if (!this.formValid) return;
+
+            this.user.email = this.email;
             this.user.password = this.password;
+
+            console.log('sending: ');
             console.log(this.user);
-            this.$router.push('/mybonds');
+            
+            this.$store.dispatch('auth/login', this.user).then(
+                (userId) => {
+                    console.log('Logged In '+ userId);
+                    this.goToRoute(userId);
+                },
+                error => {
+                    console.log('The login failed'+ error.response);
+                }
+            );
+        },
+        goToRoute(id) {
+            UsersApiService.getById(id)
+                .then(response =>{
+                    console.log(response);
+                    this.$store.dispatch('auth/savePerson', response.data);
+                    this.$router.push('/mybonds');
+                }).catch(e =>{
+                console.log(e);
+            });
         }
     }
 }
