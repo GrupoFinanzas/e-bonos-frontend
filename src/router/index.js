@@ -41,20 +41,17 @@ const routes = [
     component: () => import('../views/MyBondsView.vue'),
     children: [
       {
-        path: '/mybonds/', redirect: '/mybonds/ '
-      },
-      {
-        path: '/mybonds/ ',
+        path: '/mybonds/:userId',
         name: 'myBondsOpts',
         component: () => import('../components/mybonds-options.vue')
       },
       {
-        path: '/mybonds/add',
+        path: '/mybonds/:userId/add',
         name: 'addBond',
         component: () => import('../components/new-bond-options.vue')
       },
       {
-        path: '/mybonds/edit',
+        path: '/mybonds/:userId/edit/:bondId',
         name: 'editBond',
         component: () => import('../components/edit-bond-options.vue')
       },

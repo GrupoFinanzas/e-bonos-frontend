@@ -9,12 +9,12 @@ class AuthService{
             email: user.email,
             password: user.password}),
             {headers: {'Content-Type': 'application/json'}})
-            .then(function (response){
-                console.log(`Response arrived with status ${response.status}`);
-                console.log('printing data response...');
-                console.log(response.data);
+            .then(function (response) {
+                // console.log(`Response arrived with status ${response.status}`);
+                // console.log('printing data response...');
+                // console.log(response.data);
                 if (response.data.token){
-                    console.log(`user: ${response.data}`);
+                    // console.log(`user: ${response.data}`);
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
                 return response.data.id;

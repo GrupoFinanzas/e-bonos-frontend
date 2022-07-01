@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form id="registeropts-form-container" v-model="formValid" @submit.prevent="handleLogin">
+        <v-form id="registeropts-form-container" v-model="formValid" @submit.prevent="handleRegister">
             <div>
                 <v-text-field color="#00ADB5" label="Nombre" v-model="name" :rules="rules.name" outlined required>
                 </v-text-field>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import User from '@/models/user';
+import UsersApiService from '@/services/users-api.service';
 
 export default {
     data: () => ({
@@ -29,11 +31,6 @@ export default {
         name: '',
         formValid: false,
         showPassword: false,
-        user: {
-            name: '',
-            username: '',
-            password: ''
-        },
         rules: {
             name: [
                 val => !!val || 'El nombre es requerido',
@@ -49,12 +46,39 @@ export default {
         }
     }),
     methods: {
-        handleLogin() {
-            this.user.name = this.name;
-            this.user.username = this.email;
-            this.user.password = this.password;
-            console.log(this.user);
-            this.$router.push('/mybonds');
+        handleRegister() {
+            if (this.formValid) {
+
+                let newUser = new User(this.name, this.email, this.password);
+                this.$store.dispatch('auth/register', newUser)
+                    .then(response => {
+                        console.log(response);
+                        this.login(newUser);
+                    }).catch(e => {
+                        console.log(e);
+                    });
+            }
+        },
+        login(user) {
+            this.$store.dispatch('auth/login', user).then(
+                (userId) => {
+                    // console.log('Logged In '+ userId);
+                    this.goToRoute(userId);
+                },
+                error => {
+                    console.log('The login failed'+ error.response);
+                }
+            );
+        },
+        goToRoute(id) {
+            UsersApiService.getById(id)
+                .then(response =>{
+                    console.log(response);
+                    this.$store.dispatch('auth/savePerson', response.data);
+                    this.$router.push(`/mybonds/${id}`);
+                }).catch(e =>{
+                console.log(e);
+            });
         }
     }
 }

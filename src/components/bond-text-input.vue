@@ -79,6 +79,10 @@ export default {
     },
     mounted() {
         this.inputText = this.text;
+        if (this.inputText === undefined) {
+            this.inputText = '';
+        }
+        console.log(this.inputText);
         if (this.options) {
             this.selectedOption = this.options[0];
             this.lastSelectedOption = this.selectedOption;

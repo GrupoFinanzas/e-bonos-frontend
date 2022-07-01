@@ -1,7 +1,7 @@
 <template>
     <div class="new-bond-options-container">
         <BondDetailsBar v-on:moneyChange="onMoneyChange"></BondDetailsBar>
-        <BondDetailsView :isDolar="isDolar"></BondDetailsView>
+        <BondDetailsView :isDolar="isDolar" :editing="false"></BondDetailsView>
     </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
         onMoneyChange(isChecked) {
             this.isDolar = isChecked;
         },
-    }
+    },
 }
 
 </script>

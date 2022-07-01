@@ -1,7 +1,7 @@
 <template>
     <div class="edit-bond-options-container">
         <BondDetailsBar v-on:moneyChange="onMoneyChange"></BondDetailsBar>
-        <BondDetailsView :isDolar="isDolar"></BondDetailsView>
+        <BondDetailsView :isDolar="isDolar" :editing="true"></BondDetailsView>
     </div>
 </template>
 

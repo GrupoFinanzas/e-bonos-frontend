@@ -52,13 +52,10 @@ export default {
 
             this.user.email = this.email;
             this.user.password = this.password;
-
-            console.log('sending: ');
-            console.log(this.user);
             
             this.$store.dispatch('auth/login', this.user).then(
                 (userId) => {
-                    console.log('Logged In '+ userId);
+                    // console.log('Logged In '+ userId);
                     this.goToRoute(userId);
                 },
                 error => {
@@ -71,7 +68,7 @@ export default {
                 .then(response =>{
                     console.log(response);
                     this.$store.dispatch('auth/savePerson', response.data);
-                    this.$router.push('/mybonds');
+                    this.$router.push(`/mybonds/${id}`);
                 }).catch(e =>{
                 console.log(e);
             });

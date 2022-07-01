@@ -1,18 +1,44 @@
 <template>
     <div class="bond-list-item-container">
-        <router-link to="/mybonds/edit" class="bond-list-item-text">{{ title }}</router-link>
-        <v-btn id="bond-list-item-trash-icon" color="#EEEEEE" fab elevation="0">
+        <router-link :to="routeToEditBond" class="bond-list-item-text">{{ title }}</router-link>
+        <v-btn id="bond-list-item-trash-icon" color="#EEEEEE" fab elevation="0" @click="onRemoveBtnClicked">
             <v-icon size="25px">mdi-delete</v-icon>
         </v-btn>
     </div>
 </template>
 
 <script>
+import BondsApiService from '@/services/bonds-api.service';
+
 export default {
     name: 'BondsListView',
     props: [
-        'title'
-    ]
+        'title',
+        'bondId'
+    ],
+    data() {
+        return {
+            userId: this.$route.params.userId,
+            routeToEditBond: '',
+        }
+    },
+    methods: {
+        onRemoveBtnClicked() {
+            console.log('remove bond');
+            BondsApiService.delete(this.bondId).then(
+                (response) => {
+                    if (response.status === 200) {
+                        this.$emit('remove-bond', this.bondId);
+                    }
+                }
+            );
+        }
+    },
+    created() {
+        // console.log(this.userId);
+        this.routeToEditBond = `/mybonds/${this.userId}/edit/${this.bondId}`;
+    }
+
 }
 </script>
 
