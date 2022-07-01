@@ -13,7 +13,7 @@ class UsersApiService {
         console.log('printing header...');
         console.log(authHeader());
         console.log(`endpoint: ${API_URL}/${id}`);
-        return axios.get(`${API_URL}/${id}`, {headers: authHeader()});
+        return axios.get(`${API_URL}/${id}`, { headers: authHeader() });
     }
 }
 export default new UsersApiService();
